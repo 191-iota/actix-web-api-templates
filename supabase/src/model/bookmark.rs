@@ -1,14 +1,15 @@
 use serde::Deserialize;
 use serde::Serialize;
+use utoipa::ToSchema;
 use validator::Validate;
 
-#[derive(Debug, Deserialize, Validate)]
+#[derive(Debug, Deserialize, Validate, ToSchema)]
 pub struct CreateBookmarkReq {
     #[validate(url)]
     pub url: String,
 }
 
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, ToSchema)]
 pub struct BookmarkRes {
     pub id: String,
     pub url: String,

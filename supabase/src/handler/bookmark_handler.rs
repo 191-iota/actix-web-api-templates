@@ -9,6 +9,17 @@ use crate::model::bookmark::NewBookmark;
 use crate::repository::bookmark_repository;
 use crate::service::url_service;
 
+#[utoipa::path(
+    post,
+    path = "/api/bookmarks",
+    tag = "bookmark",
+    request_body = CreateBookmarkReq,
+    responses(
+        (status = 200, description = "Bookmark created successfully", body = BookmarkRes),
+        (status = 400, description = "Invalid bookmark payload or URL processing failed"),
+        (status = 500, description = "Failed saving bookmark")
+    )
+)]
 pub async fn create_bookmark(
     state: web::Data<AppState>,
     body: web::Json<CreateBookmarkReq>,
@@ -47,6 +58,15 @@ pub async fn create_bookmark(
     }
 }
 
+#[utoipa::path(
+    get,
+    path = "/api/bookmarks",
+    tag = "bookmark",
+    responses(
+        (status = 200, description = "List bookmarks", body = [BookmarkRes]),
+        (status = 500, description = "Failed retrieving bookmarks")
+    )
+)]
 pub async fn list_bookmarks(state: web::Data<AppState>) -> HttpResponse {
     match bookmark_repository::list_bookmarks(&state.sb_client, &state.bookmark_table).await {
         Ok(bookmarks) => HttpResponse::Ok().json(bookmarks),

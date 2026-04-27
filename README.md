@@ -9,6 +9,7 @@ Minimal Actix Web API templates extracted from the structure and coding style us
 - Local SQLite database via `sqlx`
 - `reqwest` example that fetches a page and extracts its title and host from a URL
 - Minimal `health`, `create`, and `list` endpoints
+- OpenAPI docs via `utoipa` and Swagger UI at `/swagger/`
 - Keeps the same module split: `config`, `error`, `handler`, `model`, `repository`, `routes`, `service`
 
 ### `supabase`
@@ -16,6 +17,7 @@ Minimal Actix Web API templates extracted from the structure and coding style us
 - Supabase connection through `supabase_rs`
 - Same URL extraction flow as the local variant
 - Minimal `health`, `create`, and `list` endpoints
+- OpenAPI docs via `utoipa` and Swagger UI at `/swagger/`
 - Same module layout so you can scale it the same way as `lightning-git-backend`
 
 ## Why this shape
@@ -29,7 +31,7 @@ The backend you pointed to is fairly consistent about a few things:
 - Errors are split into small enums with `thiserror`
 - Environment variables drive startup
 
-These templates keep that shape, but strip out project-specific behavior like websocket overlays, git mirror logic, JWT middleware, and Swagger.
+These templates keep that shape, but strip out project-specific behavior like websocket overlays, git mirror logic, and JWT middleware.
 
 ## Quick start
 
@@ -45,11 +47,14 @@ curl -X POST http://127.0.0.1:8080/api/bookmarks \
   -d '{"url":"https://www.rust-lang.org"}'
 ```
 
+4. Open Swagger UI at `http://127.0.0.1:8080/swagger/`
+
 ### Supabase
 
 1. Create the table from `supabase/table_creation.sql`
 2. Copy `.env.example` to `.env` inside `supabase`
 3. Run `cargo run`
+4. Open Swagger UI at `http://127.0.0.1:8080/swagger/`
 
 ## Suggested extension points
 
